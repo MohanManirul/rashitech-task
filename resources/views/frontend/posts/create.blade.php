@@ -52,8 +52,8 @@
                                             <div class="row">
                                                     <!-- business type name start -->
                                                     <div class="col-md-6 col-12 mb-2 form-group ">
-                                                        <label for="name" class="form-label">{{ __('Post Name') }}</label><span class="require-span">*</span>
-                                                        <input type="text" name="name" class="form-control" id="name" placeholder="{{ __('Enter Post Name') }}">
+                                                        <label for="title" class="form-label">{{ __('Post Name') }}</label><span class="require-span">*</span>
+                                                        <input type="text" name="title" class="form-control" id="title" placeholder="{{ __('Enter Post Name') }}">
                                                         
                                                     </div>                                                    
                                                     <!-- business type name ends -->
@@ -99,17 +99,6 @@
 
     <script src="{{ asset('backend/assets/js/jquery-3.6.1.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/select2/form-select2.min.js') }}"></script>
-     <script src="{{ asset('backend/assets/js/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/ajax_form_submit.js') }}"></script>
     <script src="{{ asset('backend/assets/js/media-uploader.js') }}"></script>
-
-    <script>
-        $(document).ready(function domReady() {
-            $(".select2").select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-            });
-        });
-    </script>
 @endpush

@@ -31,33 +31,59 @@ class UserPostController extends Controller
     return view($this->folderPath.'create');
    }
 
-   public function store(Request $request){
-   
-    try{
+//    public function store(Request $request){
+  
+//     try{
 
-        $post = new Post();
+//         $post = new Post();
     
-        if ($request->image) {
+//         if ($request->image) {
             
-            $image = $request->file('image');
-            $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
-            $location = public_path('frontend/assets/task_img/' . $img);
-            Image::make($image)->save($location);
-            $post->image = $img;
-        }
-        $post->title = $request->title;
-        $post->created_by = getAuthUserId();
-        $post->created_user_type = getAuthUserType();
-        if($post->save()) {
-            $redirectRoute = route('user.post.all');
-            return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
-        }
+//             $image = $request->file('image');
+//             $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
+//             $location = public_path('frontend/assets/task_img/' . $img);
+//             Image::make($image)->save($location);
+//             $post->image = $img;
+//         }
+//         $post->title = $request->title;
+//         $post->created_by = getAuthUserId();
+//         $post->created_user_type = getAuthUserType();
+//         if($post->save()) {
+//             $redirectRoute = route('user.post.all');
+//             return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
+//         }
+//     }catch(Exception $e){
+//         return response()->json(['error' => $e->getMessage()], 200);
+
+//     }
+
+//    }
+   public function store(PostCrudRequest $request){
+  
+    try{
+        $this->PostCrudService->storePost($request->title, $request->image); 
+  
+    
+        // if ($request->image) {
+            
+        //     $image = $request->file('image');
+        //     $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
+        //     $location = public_path('frontend/assets/task_img/' . $img);
+        //     Image::make($image)->save($location);
+        //     $post->image = $img;
+        // }
+       
+        $redirectRoute = route('user.post.all');
+        return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
+    
     }catch(Exception $e){
-        return response()->json(['success' => 'Post Created'], 200);
+        return response()->json(['error' => $e->getMessage()], 200);
 
     }
-    return view('frontend.posts.create');
+
    }
+
+   
    public function update(Request $request){
     $validator = Validator::make($request->all(), [
         "title" => "required",

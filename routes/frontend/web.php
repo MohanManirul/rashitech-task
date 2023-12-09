@@ -25,8 +25,8 @@ Route::group(['prefix' => '/userdashboard','middleware' => ['user']], function()
         });
         Route::controller(UserPostController::class)->group(function(){
             Route::get('/user-all-post',  'index')->name('user.post.all');
-            Route::get('/user-posts-create',  'userPostCreatePage')->name('user.post.create.page');
-            Route::post('/user-posts-create',  'userPostCreate')->name('user.post.store');
+            Route::get('/user-posts-create',  'create')->name('user.post.create.page');
+            Route::post('/user-posts-create',  'store')->name('user.post.store');
         });
 });
 
