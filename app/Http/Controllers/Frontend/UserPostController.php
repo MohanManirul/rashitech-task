@@ -25,7 +25,7 @@ class UserPostController extends Controller
     }
     public function index(){
         
-         $my_posts = Post::select('id','title','image','created_user_type','created_by','is_active','post_date')->where(['created_user_type'=>'user', 'created_by' => auth('user')->user()->id])->get();
+         $my_posts = Post::select('id','title','image','created_user_type','created_by','is_active','post_date')->where(['created_user_type'=>'user', 'created_by' => auth('user')->user()->id])->orderBy("id","desc")->get();
         return view($this->folderPath.'all-posts',compact('my_posts'));
     }
 
