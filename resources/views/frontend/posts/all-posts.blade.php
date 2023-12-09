@@ -71,7 +71,7 @@
                                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                                                     <td class="customer_name">{{ $key+1 }}</td>
                                                     <td class="email">{{ $single_post->title }}</td>
-                                                    {{-- <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td> --}}
+                                                    <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
                                                     <td class="date">{{ $single_post->post_date }}</td>
                                                     
                                                 </tr>
@@ -145,7 +145,7 @@
                             <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                             <td class="customer_name">{{ $key+1 }}</td>
                             <td class="email">{{ $single_post->title }}</td>
-                            {{-- <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td> --}}
+                            <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
                             <td class="date">{{ $single_post->post_date }}</td>
                             
                         </tr>
