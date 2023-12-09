@@ -24,82 +24,51 @@ class UserPostController extends Controller
         $this->PostCrudService = $PostCrudService ;
     }
     public function index(){
-        return view($this->folderPath.'all-posts');
+        
+         $my_posts = Post::select('id','title','image','created_user_type','created_by','is_active','created_at')->where(['created_user_type'=>'user', 'created_by' => auth('user')->user()->id])->get();
+        return view($this->folderPath.'all-posts',compact('my_posts'));
     }
 
    public function create(){
     return view($this->folderPath.'create');
    }
 
-//    public function store(Request $request){
-  
-//     try{
-
-//         $post = new Post();
-    
-//         if ($request->image) {
-            
-//             $image = $request->file('image');
-//             $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
-//             $location = public_path('frontend/assets/task_img/' . $img);
-//             Image::make($image)->save($location);
-//             $post->image = $img;
-//         }
-//         $post->title = $request->title;
-//         $post->created_by = getAuthUserId();
-//         $post->created_user_type = getAuthUserType();
-//         if($post->save()) {
-//             $redirectRoute = route('user.post.all');
-//             return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
-//         }
-//     }catch(Exception $e){
-//         return response()->json(['error' => $e->getMessage()], 200);
-
-//     }
-
-//    }
    public function store(PostCrudRequest $request){
   
-    try{
-        $this->PostCrudService->storePost($request->title, $request->image); 
-  
-    
-        // if ($request->image) {
+        try{
+            $this->PostCrudService->storePost($request->title, $request->image); 
             
-        //     $image = $request->file('image');
-        //     $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
-        //     $location = public_path('frontend/assets/task_img/' . $img);
-        //     Image::make($image)->save($location);
-        //     $post->image = $img;
-        // }
+            $redirectRoute = route('user.post.all');
+            return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
+        
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 200);
+
+        }
+
+   }
+
+   //edit
+   public function edit($id)
+    {  
+        $my_post = Post::findOrFail(decrypt($id));
+        return view($this->folderPath.'edit', compact('my_post'));
        
+   }
+
+
+ public function update(PostCrudRequest $request , $id){
+    try{
+        $this->PostCrudService->updatePost($request->title, $request->image ,  $request->is_active , $id); 
+        
         $redirectRoute = route('user.post.all');
-        return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
+        return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Updated Successfully'],200);               
     
     }catch(Exception $e){
         return response()->json(['error' => $e->getMessage()], 200);
 
     }
-
    }
 
-   
-   public function update(Request $request){
-    $validator = Validator::make($request->all(), [
-        "title" => "required",
-        "image" => "required|image|mimes:jpeg,jpg,png,gif,svg|max:2048",
-
-    ]);
-    if ($request->image) {
-        if (File::exists('frontend/assets/task_img/' . $patient->image)) {
-            File::delete('frontend/assets/task_img/' . $patient->image);
-        }
-        $image = $request->file('image');
-        $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
-        $location = public_path('frontend/assets/task_img/' . $img);
-        Image::make($image)->save($location);
-        $patient->image = $img;
-    }
-    return view('frontend.posts.create');
-   }
+ 
 }

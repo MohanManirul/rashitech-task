@@ -22,7 +22,7 @@ class PostCrudRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => "required|unique:posts,title".$this->id,
+            "title" => "required|unique:posts,title,".$this->id,
             "image" => "required|image|mimes:jpeg,jpg,png,gif,svg|max:2048",
         ];
     }
