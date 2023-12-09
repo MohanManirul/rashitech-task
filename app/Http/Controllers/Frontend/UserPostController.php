@@ -12,7 +12,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Exception;
-
+use Carbon\Carbon;
 
 class UserPostController extends Controller
 {
@@ -25,7 +25,7 @@ class UserPostController extends Controller
     }
     public function index(){
         
-         $my_posts = Post::select('id','title','image','created_user_type','created_by','is_active','created_at')->where(['created_user_type'=>'user', 'created_by' => auth('user')->user()->id])->get();
+         $my_posts = Post::select('id','title','image','created_user_type','created_by','is_active','post_date')->where(['created_user_type'=>'user', 'created_by' => auth('user')->user()->id])->get();
         return view($this->folderPath.'all-posts',compact('my_posts'));
     }
 
@@ -34,9 +34,9 @@ class UserPostController extends Controller
    }
 
    public function store(PostCrudRequest $request){
-  
+     $post_date = Carbon::now()->format("Y-m-d");
         try{
-            $this->PostCrudService->storePost($request->title, $request->image); 
+            $this->PostCrudService->storePost($request->title, $request->image , $post_date); 
             
             $redirectRoute = route('user.post.all');
             return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Created Successfully'],200);               
@@ -69,6 +69,36 @@ class UserPostController extends Controller
 
     }
    }
+
+   public function delete($id){
+        $my_post = Post::findOrFail(decrypt($id));
+        if (!is_null($my_post)) {
+            $my_post->delete();
+        }
+        $redirectRoute = route('user.post.all');
+        return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Deleted Successfull...'],200);               
+
+    }
+
+    //search
+    public function search(Request $request){
+      $searchInput = $request->get('search');
+         
+         if($searchInput){
+            $searchResult = Post::select('title','post_date')
+            ->where('title', 'like' ,'%' .$searchInput . '%')
+            ->orWhere('post_date', 'like', '%'.$searchInput.'%')
+            ->orderBy("id","desc")
+            ->take(20)
+            ->get(); 
+            if( $searchResult){
+                return response()->json(['searchResult'=>$searchResult], 200);
+            }
+         }else{
+            $searchResult = Post::orderBy("id","desc")->select('id','title','image','created_user_type','created_by','is_active','post_date')->take(20)->get();
+            return response()->json(['searchResult'=>$searchResult], 200);
+         }
+    }
 
  
 }

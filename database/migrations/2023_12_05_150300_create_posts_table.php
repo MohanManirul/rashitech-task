@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('image')->nullable();
             $table->enum('created_user_type', ['super_admin','user'])->nullable();
+            $table->date("post_date")->nullable();
             $table->foreignId('created_by')->nullable();
             $table->boolean('is_active')->default(false);
             $table->timestamps();

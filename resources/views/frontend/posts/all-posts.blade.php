@@ -35,7 +35,7 @@
                                     <div class="col-sm">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
-                                                <input type="text" class="form-control search" placeholder="Search...">
+                                                <input type="search" name="search" id="search" class="form-control search" placeholder="Search...">
                                                 <i class="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
@@ -59,7 +59,7 @@
                                                 <th class="sort" data-sort="action">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="list form-check-all">
+                                        <tbody id="dynamic-row" class="list form-check-all">
                                             @foreach ($my_posts as $key=>$single_post)                                                
                                                 <tr>
                                                     <th scope="row">
@@ -71,24 +71,9 @@
                                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                                                     <td class="customer_name">{{ $key+1 }}</td>
                                                     <td class="email">{{ $single_post->title }}</td>
-                                                    <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
-                                                    <td class="date">{{ $single_post->created_at }}</td>
-                                                    <td class="status"><span class="badge badge-soft-success text-uppercase " >
-                                                        @if($single_post->is_active === 1)
-                                                           <p style="color:#198754">Active</p> 
-                                                        @else
-                                                            <p style="color:#dc3545">Inactive</p> 
-                                                        @endif
-                                                    <td>
-                                                        <div class="d-flex gap-2">
-                                                            <div class="edit">
-                                                                <button class="btn btn-sm btn-success edit-item-btn"><a href="{{ route('user.post.edit', ['id' => encrypt($single_post->id)] ) }}">Edit</a> </button>
-                                                            </div>
-                                                            <div class="remove">
-                                                                <button class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    {{-- <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td> --}}
+                                                    <td class="date">{{ $single_post->post_date }}</td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -127,3 +112,50 @@
     </div>
 
 @endsection
+
+@push('per_page_js')
+    <script src="{{ asset('backend/assets/js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/ajax_form_submit.js') }}"></script>
+
+    <script>
+        $("#search").on('input',function(){
+            var searchRequest = $(this).val();
+            console.log(searchRequest);
+            $.ajax({
+                "type" : 'GET',
+                'url'  : '{{ route("post.search") }}',
+                data : {
+                    search: searchRequest ,
+                },
+                success:function(response){
+                    $("#dynamic-row tr").remove()
+                    $.each(response.searchResult , function(index, val) { 
+                        let post_edit_route = "{{ route('user.post.edit',':id') }}";
+                        post_edit_route = post_edit_route.replace(':id',val.id);
+
+                        $("#dynamic-row").append(`
+                        <tr>
+                            <th scope="row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                                </div>
+                            </th>
+                            
+                            <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
+                            <td class="customer_name">{{ $key+1 }}</td>
+                            <td class="email">{{ $single_post->title }}</td>
+                            {{-- <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td> --}}
+                            <td class="date">{{ $single_post->post_date }}</td>
+                            
+                        </tr>
+                       
+                        `)
+                       
+
+                    });
+                }
+            });
+        });
+    </script>
+@endpush

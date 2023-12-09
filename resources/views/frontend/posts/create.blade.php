@@ -98,5 +98,4 @@
     <script src="{{ asset('backend/assets/js/jquery-3.6.1.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/ajax_form_submit.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/media-uploader.js') }}"></script>
 @endpush
