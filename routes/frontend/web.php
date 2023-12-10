@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\AuthenticationController;
+use App\Http\Controllers\Frontend\HomepageController;
 use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserPostController;
@@ -14,6 +15,9 @@ Route::controller(AuthenticationController::class)->prefix('/login')->group(func
     Route::post('/logout', 'logout')->name('logout');
 
 });
+
+Route::get('/home', [HomepageController::class, 'home'])->name('home');
+Route::get('/public-post-search', [HomepageController::class, 'publicSearch'])->name('public.post.search');
 
 Route::get('/register', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'do_register'])->name('do.register');

@@ -83,12 +83,14 @@ class UserPostController extends Controller
 
     //search
     public function search(Request $request){
+ 
       $searchInput = $request->get('search');
          
          if($searchInput){
             $searchResult = Post::select('title','post_date')
-            ->where('title', 'like' ,'%' .$searchInput . '%')
-            ->orWhere('post_date', 'like', '%'.$searchInput.'%')
+            ->where(['created_by' => getAuthUserId(),
+            'created_user_type' => getAuthUserType(),])
+            ->where('post_date', 'like', $searchInput)
             ->orderBy("id","desc")
             ->take(20)
             ->get(); 
@@ -96,7 +98,8 @@ class UserPostController extends Controller
                 return response()->json(['searchResult'=>$searchResult], 200);
             }
          }else{
-            $searchResult = Post::orderBy("id","desc")->select('id','title','image','created_user_type','created_by','is_active','post_date')->take(20)->get();
+            $searchResult = Post::orderBy("id","desc")->select('id','title','image','created_user_type','created_by','is_active','post_date')->where(['created_by' => getAuthUserId(),
+            'created_user_type' => getAuthUserType(),])->orderBy("id","desc")->take(20)->get();
             return response()->json(['searchResult'=>$searchResult], 200);
          }
     }

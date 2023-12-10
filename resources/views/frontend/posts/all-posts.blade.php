@@ -78,9 +78,9 @@
                                                     <td class="customer_name">{{ $key+1 }}</td>
                                                     <td class="email">{{ $single_post->title }}</td>
                                                     <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
-                                                    <td class="date">{{ $single_post->post_date }}</td>
+                                                    <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
                                                     <td class="status"><span class="badge badge-soft-success text-uppercase">
-                                                    @if($single_post->status === 1)
+                                                    @if($single_post->is_active === 1)
                                                         <p style="color: green">Active</p>
                                                     @else   
                                                         <p style="color: red">In-Active</p> 
@@ -165,7 +165,8 @@
                             <td class="customer_name">${ index+1 }</td>
                             <td class="email">${ val.title }</td>
                             <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
-                            <td class="date">${ val.post_date }</td>
+                           
+                            <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
                             <td class="status"><span class=" text-uppercase" style="color:red"> Active  </span></td>
                             <td>
                                 <div class="d-flex gap-2">
