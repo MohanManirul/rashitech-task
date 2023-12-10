@@ -1265,3 +1265,8 @@ section {
   text-align: center;
   font-size: 13px;
 }
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+}

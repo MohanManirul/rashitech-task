@@ -58,8 +58,9 @@ class UserPostController extends Controller
 
 
  public function update(PostCrudRequest $request , $id){
+    $post_date = Carbon::now()->format("Y-m-d");
     try{
-        $this->PostCrudService->updatePost($request->title, $request->image ,  $request->is_active , $id); 
+        $this->PostCrudService->updatePost($request->title, $request->image ,  $request->is_active ,$post_date , $id); 
         
         $redirectRoute = route('user.post.all');
         return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Updated Successfully'],200);               
@@ -75,8 +76,8 @@ class UserPostController extends Controller
         if (!is_null($my_post)) {
             $my_post->delete();
         }
-        $redirectRoute = route('user.post.all');
-        return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Deleted Successfull...'],200);               
+        session()->flash('success' , 'Post Deleted Successfull... ');
+      return back();              
 
     }
 

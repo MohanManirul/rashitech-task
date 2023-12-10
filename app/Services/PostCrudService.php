@@ -24,7 +24,7 @@ class PostCrudService{
     }
     
     //update
-    public function updatePost($title,$image, $is_active,$id){
+    public function updatePost($title,$image, $is_active, $post_date, $id){
         if (File::exists('frontend/assets/task_img/' . $image)) {
             File::delete('frontend/assets/task_img/' . $image);
         }
@@ -36,7 +36,7 @@ class PostCrudService{
         ->update([
             'title' => $title,
             'image' =>$img ,
-            'post_date' => Carbon::now()->format("Y-m-d"),
+            'post_date' => $post_date,
             'is_active' =>$is_active 
           ]);
     }

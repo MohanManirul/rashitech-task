@@ -30,7 +30,7 @@ Route::group(['prefix' => '/userdashboard','middleware' => ['user']], function()
             Route::get('/user-posts-edit/{id}',  'edit')->name('user.post.edit');
             Route::post('/user-posts-update/{id}',  'update')->name('user.post.update');
             Route::post('/user-posts-update/{id}',  'update')->name('user.post.update');
-            Route::post('/user-posts-delete/{id}',  'delete')->name('user.post.delete');
+            Route::get('/user-posts-delete/{id}',  'delete')->name('user.post.delete');
             Route::get('/search',  'search')->name('post.search');
         });
 });
