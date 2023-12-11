@@ -58,7 +58,7 @@
         <div class="row">
 
             <div class="card col-md-3"  style="margin: auto; ">
-                <a target="__blank" href="http://manirul.xyz/"><div class="card-body">Md.Manirul Ismlam's Portfolio</div>
+                <a target="__blank" href="http://manirul.xyz/"><div class="card-body">Md.Manirul Islam's Portfolio</div>
                 
               </div>
         </div>
@@ -73,7 +73,7 @@
                 <div class="col-lg-12">
                     <div class="text-center">
                         <p class="mb-0">&copy;
-                            <script>document.write(new Date().getFullYear())</script> {{ __('Egal Shop. Crafted with') }} <i class="mdi mdi-heart text-danger"></i>
+                            <script>document.write(new Date().getFullYear())</script> {{ __('Eagle Shop. Crafted with') }} <i class="mdi mdi-heart text-danger"></i>
                         </p>
                     </div>
                 </div>
