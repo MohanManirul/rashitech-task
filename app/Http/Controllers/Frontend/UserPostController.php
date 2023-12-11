@@ -34,7 +34,7 @@ class UserPostController extends Controller
    }
 
    public function store(PostCrudRequest $request){
-     $post_date = Carbon::now()->format("Y-m-d");
+     $post_date = Carbon::now()->format("Y-d-m");
         try{
             $this->PostCrudService->storePost($request->title, $request->image , $post_date); 
             
@@ -73,7 +73,7 @@ class UserPostController extends Controller
 
 //update
 public function update(Request $request,$id){
-    $post_date = Carbon::now()->format("Y-m-d");
+    $post_date = Carbon::now()->format("Y-d-m");
     try {
         $my_post = Post::findOrFail(decrypt($id));
         $my_post->title = $request->title;
@@ -102,9 +102,13 @@ public function update(Request $request,$id){
     }
 }
 
+//delete
    public function delete($id){
         $my_post = Post::findOrFail(decrypt($id));
         if (!is_null($my_post)) {
+            if (File::exists('frontend/assets/task_img/' . $my_post->image)) {
+                File::delete('frontend/assets/task_img/' . $my_post->image);
+            }
             $my_post->delete();
         }
         session()->flash('success' , 'Post Deleted Successfull... ');

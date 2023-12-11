@@ -29,7 +29,6 @@ class HomepageController extends Controller
               ->orderBy("id","desc")
               ->take(20)
               ->get();
-              Log::info($publicPostSearchResult ); 
               if( $publicPostSearchResult){
                   return response()->json(['publicPostSearchResult'=>$publicPostSearchResult], 200);
               }

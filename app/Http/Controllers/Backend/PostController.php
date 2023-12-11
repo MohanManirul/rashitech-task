@@ -87,9 +87,9 @@ public function update(Request $request,$id){
         $my_post->is_active = $request->is_active;
     
         // image insert 
-        if ($request->image) {
+        if ($request->image) { 
 
-            //insert that image
+            //delete that image
             if (File::exists('frontend/assets/task_img/' . $my_post->image)) {
                 File::delete('frontend/assets/task_img/' . $my_post->image);
             }
@@ -106,6 +106,20 @@ public function update(Request $request,$id){
     } catch (Exception $e) {
         return response()->json(['error' => $e->getMessage()], 200);
     }
+}
+
+//delete
+public function delete($id){
+    $my_post = Post::findOrFail(decrypt($id));
+    if (!is_null($my_post)) {
+        if (File::exists('frontend/assets/task_img/' . $my_post->image)) {
+            File::delete('frontend/assets/task_img/' . $my_post->image);
+        }
+        $my_post->delete();
+    }
+    session()->flash('success' , 'Post Deleted Successfull... ');
+    return back();              
+
 }
 
 }

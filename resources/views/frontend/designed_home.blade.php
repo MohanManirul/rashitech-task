@@ -65,6 +65,7 @@
     
     <div class="container header-top">
         <div class="d-flex justify-content-sm-end">
+          {{-- date search --}}
             <div class="search-box ms-2">
               <span>Search</span>  <input type="date" name="search" id="search">
                 <i class="ri-search-line search-icon"></i>
@@ -75,7 +76,7 @@
                 
                 @foreach($all_author as $single_author)
 
-                    <option id="user_post_search" name='user_post_search' value="{{ $single_author->id }}">{{ $single_author->name }} ({{ __('User') }})</option>
+                    <option  value="{{ $single_author->id }}">{{ $single_author->name }} ({{ __('User') }})</option>
                     
                 @endforeach
             </select>
@@ -113,8 +114,7 @@
                           <td class="customer_name">{{ $key+1 }}</td>
                           <td class="email">{{ $single_post->title }}</td>
                           <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
-                          <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
-                          <td class="date">{{ $single_post->user->name }}</td>
+                          <td class="date">{{ date('m-d-Y', strtotime($single_post->post_date)) }}</td>
                           <td>
                               @if($single_post->created_user_type ==='user' )
                                 {{ $single_post->user->name }}</td>
@@ -238,6 +238,8 @@
     <script src="{{ asset('backend/assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/ajax_form_submit.js') }}"></script>
 
+
+    {{-- search by user --}}
   <script>
     $("#user_post_search").on('change',function(){
       var user_id = this.value;
@@ -264,9 +266,9 @@
                             <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                             <td class="customer_name">${ index+1 }</td>
                             <td class="email">${ val.title }</td>
-                            <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
+                            <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . '${val.image}') }}" alt="Image"></td>
                            
-                            <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
+                            <td class="date">${ val.post_date }</td> date('m-d-Y', strtotime($single_post->post_date))
                             <td class="date">${ val.user.name }</td>
                             
                             
@@ -281,6 +283,8 @@
             });
     });
   </script>
+
+  {{-- date search --}}
 <script>
         $("#search").on('input',function(){
             var searchRequest = $(this).val();
@@ -294,12 +298,11 @@
                 success:function(response){
                     $("#dynamic-row tr").remove()
                     $.each(response.searchResult , function(index, val) { 
-                       let image = 'public/frontend/assets/task_img/'+val.image 
 
                         $("#dynamic-row").append(`
                        
                         <tr>
-                            <th scope="row">
+                            <th scope="row"> 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
                                 </div>
@@ -308,15 +311,15 @@
                             <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                             <td class="customer_name">${ index+1 }</td>
                             <td class="email">${ val.title }</td>
-                            <td class="phone"><img style="width: 50px;height:auto" src="xyz" alt="Image"></td>
+                            <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . '${val.image}') }}" alt="Image"></td>
                            
-                            <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
-                            <td class="date">${ val.user.name }</td>
+                            <td class="date">${ val.post_date }</td>
+                            
                             <td>
                               @if($single_post->created_user_type ==='user' )
-                                {{ $single_post->user->name }}</td>
+                                ${val.user.name }</td>
                               @else
-                                {{ $single_post->super_admin->name }}</td>
+                              ${val.user.name }</td>
                               @endif
                             </td>
                            
