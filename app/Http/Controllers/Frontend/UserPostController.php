@@ -12,7 +12,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Exception;
-use Carbon\Carbon;
+use Carbon\Carbon; 
 
 class UserPostController extends Controller
 {
@@ -56,20 +56,51 @@ class UserPostController extends Controller
        
    }
 
-
- public function update(PostCrudRequest $request , $id){
-    $post_date = Carbon::now()->format("Y-m-d");
-    try{
-        $this->PostCrudService->updatePost($request->title, $request->image ,  $request->is_active ,$post_date , $id); 
+//update
+//  public function update(PostCrudRequest $request , $id){
+//     $post_date = Carbon::now()->format("Y-m-d");
+//     try{
+//         $this->PostCrudService->updatePost($request->title, $request->image ,  $request->is_active ,$post_date , $id); 
         
-        $redirectRoute = route('user.post.all');
-        return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Updated Successfully'],200);               
+//         $redirectRoute = route('user.post.all');
+//         return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Updated Successfully'],200);               
     
-    }catch(Exception $e){
-        return response()->json(['error' => $e->getMessage()], 200);
+//     }catch(Exception $e){
+//         return response()->json(['error' => $e->getMessage()], 200);
 
+//     }
+//    }
+
+//update
+public function update(Request $request,$id){
+    $post_date = Carbon::now()->format("Y-m-d");
+    try {
+        $my_post = Post::findOrFail(decrypt($id));
+        $my_post->title = $request->title;
+        $my_post->post_date = $post_date;
+        $my_post->is_active = $request->is_active;
+    
+        // image insert 
+        if ($request->image) {
+
+            //insert that image
+            if (File::exists('frontend/assets/task_img/' . $my_post->image)) {
+                File::delete('frontend/assets/task_img/' . $my_post->image);
+            }
+            $image = $request->file('image');
+            $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('frontend/assets/task_img/' . $img);
+            Image::make($image)->save($location);
+            $my_post->image = $img;
+        }
+        if ($my_post->save()) {
+            $redirectRoute = route('user.post.all');
+            return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Updated Successfully'],200);               
+        }
+    } catch (Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 200);
     }
-   }
+}
 
    public function delete($id){
         $my_post = Post::findOrFail(decrypt($id));

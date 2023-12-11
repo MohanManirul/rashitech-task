@@ -115,11 +115,14 @@
                           <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
                           <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
                           <td class="date">{{ $single_post->user->name }}</td>
-                            {{-- @if($single_post->created_user_type ==='user' )
-                              {{ $single_post->user->name }}</td>
-                            @else
-                              {{ $single_post->super_admin->name }}</td>
-                            @endif --}}
+                          <td>
+                              @if($single_post->created_user_type ==='user' )
+                                {{ $single_post->user->name }}</td>
+                              @else
+                                {{ $single_post->super_admin->name }}</td>
+                              @endif
+                          </td>
+                           
                           
                           
                       </tr>
@@ -281,6 +284,7 @@
 <script>
         $("#search").on('input',function(){
             var searchRequest = $(this).val();
+            
             $.ajax({
                 "type" : 'GET',
                 'url'  : '{{ route("public.post.search") }}',
@@ -290,7 +294,7 @@
                 success:function(response){
                     $("#dynamic-row tr").remove()
                     $.each(response.searchResult , function(index, val) { 
-                       
+                       let image = 'public/frontend/assets/task_img/'+val.image 
 
                         $("#dynamic-row").append(`
                        
@@ -304,11 +308,18 @@
                             <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                             <td class="customer_name">${ index+1 }</td>
                             <td class="email">${ val.title }</td>
-                            <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
+                            <td class="phone"><img style="width: 50px;height:auto" src="xyz" alt="Image"></td>
                            
                             <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
                             <td class="date">${ val.user.name }</td>
-                            
+                            <td>
+                              @if($single_post->created_user_type ==='user' )
+                                {{ $single_post->user->name }}</td>
+                              @else
+                                {{ $single_post->super_admin->name }}</td>
+                              @endif
+                            </td>
+                           
                             
                         </tr>
 

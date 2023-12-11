@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomepageController extends Controller
 {
@@ -27,7 +28,8 @@ class HomepageController extends Controller
               ->where('created_by', 'like', $user_id)
               ->orderBy("id","desc")
               ->take(20)
-              ->get(); 
+              ->get();
+              Log::info($publicPostSearchResult ); 
               if( $publicPostSearchResult){
                   return response()->json(['publicPostSearchResult'=>$publicPostSearchResult], 200);
               }
@@ -41,19 +43,19 @@ class HomepageController extends Controller
             return response()->json(['publicPostSearchResult'=>$publicPostSearchResult], 200);
          }
     }else{
-        if($searchInput){
-            $searchResult = Post::with(['user','super_admin'])->select('id','title','image','created_user_type','created_by','is_active','post_date')
-            ->where('post_date', 'like', $searchInput)
-            ->orderBy("id","desc")
-            ->take(20)
-            ->get(); 
-            if( $searchResult){
-                return response()->json(['searchResult'=>$searchResult], 200);
-            }
-         }else{
-            $searchResult = Post::orderBy("id","desc")->select('id','title','image','created_user_type','created_by','is_active','post_date')->take(20)->get();
-            return response()->json(['searchResult'=>$searchResult], 200);
-         }
+         if($searchInput){
+              $searchResult = Post::with(['user','super_admin'])->select('id','title','image','created_user_type','created_by','is_active','post_date')
+              ->where('post_date', 'like', $searchInput)
+              ->orderBy("id","desc")
+              ->take(20)
+              ->get(); 
+              if( $searchResult){
+                  return response()->json(['searchResult'=>$searchResult], 200);
+              }
+           }else{
+              $searchResult = Post::orderBy("id","desc")->select('id','title','image','created_user_type','created_by','is_active','post_date')->take(20)->get();
+              return response()->json(['searchResult'=>$searchResult], 200);
+           }
     }
            
 

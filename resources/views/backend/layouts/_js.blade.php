@@ -21,3 +21,4 @@
 
     <!-- App js -->
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
+    @stack('per_page_js')

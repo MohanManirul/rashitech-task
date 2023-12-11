@@ -38,11 +38,20 @@
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics"> All Posts </a>
+                                    <li class="nav-item"> 
+                                        <a href="{{ route('post.all') }}" 
+                                        @if(  Route::currentRouteName() == 'post.all' )
+                                            class="nav-link active"
+                                        @else
+                                            class="nav-link"
+                                        @endif data-key="t-analytics"> All Posts </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="dashboard-crm.html" class="nav-link" data-key="t-crm"> Create Post </a>
+                                        <a href="{{ route('post.create.page') }}" @if(  Route::currentRouteName() == 'post.create.page' )
+                                        class="nav-link active"
+                                    @else
+                                        class="nav-link"
+                                    @endif data-key="t-crm"> Create Post </a>
                                     </li>
                                 </ul>
                             </div>
