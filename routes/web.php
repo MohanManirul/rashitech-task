@@ -26,13 +26,3 @@ require_once 'backend/web.php';
 | Frontend Routes End
 |----------------------------------------------
 */
-
-
-
-
-Route::get('/',[HomeController::class,'index'])->name('/');
-Route::get('/about',[HomeController::class,'about'])->name('about');
-Route::get('/projects',[HomeController::class,'projects'])->name('projects');
-Route::get('/contact',[HomeController::class,'contact'])->name('contact');
-
-

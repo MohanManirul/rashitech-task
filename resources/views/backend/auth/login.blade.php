@@ -44,7 +44,9 @@
                                         <div class="mb-4">
                                             <a href="" class="d-block">
                                                 <img src="{{ asset('backend/assets/images/logo-light.png') }}" alt="" height="18">
-                                            </a>
+                                            </a> <br>
+                                            <h6 style="color: #ffffff">Email : superadmin@gmail.com</h6>
+                                            <h6 style="color: #ffffff">Passwd : 123456</h6></a>
                                         </div>
                                         <div class="mt-auto">
                                             <div class="mb-3">

@@ -7,6 +7,14 @@ use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserPostController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/', [HomepageController::class, 'index'])->name('/');
+Route::get('/home', [HomepageController::class, 'home'])->name('home');
+Route::get('/public-post-search', [HomepageController::class, 'publicSearch'])->name('public.post.search');
+
+Route::get('/register', [RegisterController::class, 'register'])->name('register');
+Route::post('/register', [RegisterController::class, 'do_register'])->name('do.register');
+
 Route::controller(AuthenticationController::class)->prefix('/login')->group(function(){
 
     Route::get('/', 'index')->name('front.login');
@@ -16,11 +24,6 @@ Route::controller(AuthenticationController::class)->prefix('/login')->group(func
 
 });
 
-Route::get('/home', [HomepageController::class, 'home'])->name('home');
-Route::get('/public-post-search', [HomepageController::class, 'publicSearch'])->name('public.post.search');
-
-Route::get('/register', [RegisterController::class, 'register'])->name('register');
-Route::post('/register', [RegisterController::class, 'do_register'])->name('do.register');
 
 Route::group(['prefix' => '/userdashboard','middleware' => ['user']], function(){
         Route::controller(UserDashboardController::class)->group(function(){

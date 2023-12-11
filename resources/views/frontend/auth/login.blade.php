@@ -67,6 +67,8 @@
                                 <div class="p-lg-5 p-4 auth-one-bg h-100">
                                     <div class="bg-overlay"></div>
                                     <div class="position-relative h-100 d-flex flex-column">
+                                        <h6 style="color: #ffffff">Email : khairul@gmail.com</h6>
+                                        <h6 style="color: #ffffff">Passwd : 123456</h6></a>
                                         <div class="mb-4">
                                             <a href="" class="d-block">
                                                 <img src="{{ asset('frontend/assets/images/logo-light.png') }}" alt="" height="18">
@@ -119,7 +121,7 @@
                                     
                                     <div class="login-header">
                                         <h3>
-                                            Login<a class="forgot-link" href="{{ route('register') }}" >Don’t have an
+                                           User Login<a class="forgot-link" href="{{ route('register') }}" >Don’t have an
                                                 account?</a>
                                         </h3>
                                     </div>

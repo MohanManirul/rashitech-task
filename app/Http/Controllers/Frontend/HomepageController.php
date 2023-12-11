@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class HomepageController extends Controller
 {
+
+   public function index(){
+    return view('frontend.index');
+   }
     public function home(){
         $all_posts= Post::with(['user','super_admin'])->select('title','image','created_user_type','post_date','created_by')->where('is_active', true)->get();
         $all_author = User::select('id','name')->get();
         // return view('frontend.home',compact('all_posts'));
-        return view('frontend.designed_home',compact(['all_posts','all_author']));
+        return view('frontend.all-posts',compact(['all_posts','all_author']));
     }
 
     public function publicSearch(Request $request){
