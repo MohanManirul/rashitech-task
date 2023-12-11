@@ -268,7 +268,7 @@
                             <td class="email">${ val.title }</td>
                             <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . '${val.image}') }}" alt="Image"></td>
                            
-                            <td class="date">${ val.post_date }</td> date('m-d-Y', strtotime($single_post->post_date))
+                            <td class="date">${ val.post_date }</td>
                             <td class="date">${ val.user.name }</td>
                             
                             
