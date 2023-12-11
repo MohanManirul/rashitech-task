@@ -77,8 +77,8 @@
                                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
                                                     <td class="customer_name">{{ $key+1 }}</td>
                                                     <td class="email">{{ $single_post->title }}</td>
-                                                    <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
-                                                    <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
+                                                    <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>                                                   
+                                                    <td class="date">{{ date('m-d-Y', strtotime($single_post->post_date)) }}</td>
                                                     <td class="status"><span class="badge badge-soft-success text-uppercase">
                                                     @if($single_post->is_active === 1)
                                                         <p style="color: green">Active</p>
@@ -166,7 +166,7 @@
                             <td class="email">${ val.title }</td>
                             <td class="phone"><img style="width: 50px;height:auto" src="{{ asset('frontend/assets/task_img/' . $single_post->image) }}" alt="Image"></td>
                            
-                            <td class="date">{{ date('d-m-Y', strtotime($single_post->post_date)) }}</td>
+                            <td class="date">${ val.post_date }</td>
                             <td class="status"><span class=" text-uppercase" style="color:red"> Active  </span></td>
                             <td>
                                 <div class="d-flex gap-2">
