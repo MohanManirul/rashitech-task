@@ -56,5 +56,8 @@ class AuthenticationController extends Controller
             Auth::guard('user')->logout();
             return redirect()->route('front.login');
         }
+        else{
+            return view('errors.404');
+            }
     }
 }

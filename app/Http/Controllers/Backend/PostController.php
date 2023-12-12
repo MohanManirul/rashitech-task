@@ -35,12 +35,18 @@ class PostController extends Controller
 
    //create
    public function create(){
-    return view($this->folderPath.'create');
+    if ( auth('super_admin')->check() ) {
+        return view($this->folderPath.'create');
+    }else{
+        return view('errors.404');
+    }
+    
    }
 
    //store
    public function store(PostCrudRequest $request){
     $post_date = Carbon::now()->format("Y-m-d");
+    if ( auth('super_admin')->check() ) {
        try{
            $this->PostCrudService->storePost($request->title, $request->image , $post_date); 
            
@@ -51,35 +57,28 @@ class PostController extends Controller
            return response()->json(['error' => $e->getMessage()], 200);
 
        }
+    }else{
+        return view('errors.404');
+    }
 
   }
 
   //edit
   public function edit($id)
   {  
+    if ( auth('super_admin')->check() ) {
       $single_post = Post::findOrFail(decrypt($id));
       return view($this->folderPath.'edit', compact('single_post'));
-     
+  }else{
+    return view('errors.404');
+    }
  }
 
- //update
-//  public function update(PostCrudRequest $request , $id){
-//     $post_date = Carbon::now()->format("Y-m-d");
-//     try{
-//         $this->PostCrudService->updatePost($request->title, $request->image ,  $request->is_active ,$post_date , $id); 
-        
-//         $redirectRoute = route('post.all');
-//         return response()->json(['redirect' => $redirectRoute , 'redirectMessage' => 'Post Updated Successfully'],200);               
-    
-//     }catch(Exception $e){
-//         return response()->json(['error' => $e->getMessage()], 200);
-
-//     }
-//    }
 
 //update
 public function update(Request $request,$id){
     $post_date = Carbon::now()->format("Y-m-d");
+    if ( auth('super_admin')->check() ) {
     try {
         $my_post = Post::findOrFail(decrypt($id));
         $my_post->title = $request->title;
@@ -106,10 +105,14 @@ public function update(Request $request,$id){
     } catch (Exception $e) {
         return response()->json(['error' => $e->getMessage()], 200);
     }
+    }else{
+        return view('errors.404');
+        }
 }
 
 //delete
 public function delete($id){
+    if ( auth('super_admin')->check() ) {
     $my_post = Post::findOrFail(decrypt($id));
     if (!is_null($my_post)) {
         if (File::exists('frontend/assets/task_img/' . $my_post->image)) {
@@ -120,6 +123,10 @@ public function delete($id){
     session()->flash('success' , 'Post Deleted Successfull... ');
     return back();              
 
-}
+    }
+    else{
+        return view('errors.404');
+        }
 
+    }
 }

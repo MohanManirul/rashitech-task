@@ -29,6 +29,10 @@
         <div class="app-menu navbar-menu">
             <!--left sidebar start-->
             @include('backend.layouts._leftSideBar')
+            <div class="card">
+                @include('backend.layouts.logout')
+            </div>
+            
             <!--left sidebar end-->
         </div>
         <!-- Left Sidebar End -->

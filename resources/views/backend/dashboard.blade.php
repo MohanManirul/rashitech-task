@@ -3,10 +3,7 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-            <div style="float: right">
-                <a  href="#"  onclick="event.preventDefault(); document.getElementById('logout-form').submit()"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout"> <button class="btn btn-danger" >{{ __('Logout') }}</button> </span></a>
-                <form action="{{ route('super_admin.logout') }}" id="logout-form" style="display: none;" method="post">@csrf</form>
-            </div>
+            
             <div class="row">
                 
                 <div class="col"> 
